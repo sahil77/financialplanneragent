@@ -1,0 +1,119 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllReaperSupportedServices",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:*",
+                "cloudwatch:*",
+                "dynamodb:*",
+                "ec2:*",
+                "iam:*",
+                "kms:*",
+                "lambda:*",
+                "logs:*",
+                "route53:*",
+                "s3:*",
+                "sagemaker:*",
+                "secretsmanager:*",
+                "sts:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "BedrockModelSubscriptions",
+            "Effect": "Allow",
+            "Action": [
+                "aws-marketplace:Subscribe"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "ForAnyValue:StringEquals": {
+                    "aws-marketplace:ProductId": [
+                        "c468b48a-84df-43a4-8c46-8870630108a7",
+                        "b0eb9475-3a2c-43d1-94d3-56756fd43737",
+                        "prod-2lvuzn4iy6n6o",
+                        "prod-ariujvyzvd2qy",
+                        "prod-6dw3qvchef7zy",
+                        "prod-ozonys2hmmpeu"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "DenyXXLInstances",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:RunInstances"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "ec2:InstanceType": [
+                        "*6xlarge",
+                        "*8xlarge",
+                        "*10xlarge",
+                        "*12xlarge",
+                        "*16xlarge",
+                        "*18xlarge",
+                        "*24xlarge",
+                        "f1.4xlarge",
+                        "x1*",
+                        "z1*",
+                        "*metal"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "DontBuyEC2ReservationsPlz",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:ModifyReservedInstances",
+                "ec2:PurchaseHostReservation",
+                "ec2:PurchaseReservedInstancesOffering",
+                "ec2:PurchaseScheduledInstances"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:*"
+            ]
+        },
+        {
+            "Sid": "DontBuyRDSReservationsPlz",
+            "Effect": "Deny",
+            "Action": [
+                "rds:PurchaseReservedDBInstancesOffering"
+            ],
+            "Resource": [
+                "arn:aws:rds:*:*:*"
+            ]
+        },
+        {
+            "Sid": "DontBuyDynamodbReservationsPlz",
+            "Effect": "Deny",
+            "Action": [
+                "dynamodb:PurchaseReservedCapacityOfferings"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:*:*"
+            ]
+        },
+        {
+            "Sid": "PassRole",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
