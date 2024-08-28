@@ -4,8 +4,8 @@ import boto3
 import decimal
 
 # DynamoDB boto3 resource and variable
-dynamodb = boto3.resource('dynamodb',region_name='us-west-2')
-loans_table_name = 'financial-advisor-userdetails'
+dynamodb = boto3.resource('dynamodb',region_name='ap-south-1')
+loans_table_name = 'user-details-ap-south-1-sahil'
 table = dynamodb.Table(loans_table_name)
 
 def get_named_parameter(event, name):
